@@ -26,5 +26,5 @@ urlpatterns = [
     path('logout/', auth_views.logout),
     path('signup/', vote_views.signup),
     path('upload/', vote_views.upload),
-    path('vote/', vote_views.vote),
+    path('', vote_views.vote),
 ]
