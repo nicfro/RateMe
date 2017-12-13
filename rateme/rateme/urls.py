@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 from vote import views as vote_views
 
@@ -27,4 +29,4 @@ urlpatterns = [
     path('signup/', vote_views.signup),
     path('upload/', vote_views.upload),
     path('', vote_views.vote),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

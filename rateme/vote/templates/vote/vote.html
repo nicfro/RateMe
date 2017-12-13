@@ -4,4 +4,24 @@
 
 {% block content %}
   <h2>Vote</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="img_a" value="{{ img_a.pk }}"/>
+    <input type="hidden" name="img_b" value="{{ img_b.pk }}"/>
+    <input type="hidden" name="winner" value="{{ img_a.pk }}"/>
+    <input type="submit">
+      <img src="{{ MEDIA_URL }}{{ img_a.img.url}}"/>
+    </input>
+  </form>
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="img_a" value="{{ img_a.pk }}"/>
+    <input type="hidden" name="img_b" value="{{ img_b.pk }}"/>
+    <input type="hidden" name="winner" value="{{ img_b.pk }}"/>
+    <input type="submit">
+      <img src="{{ MEDIA_URL }}{{ img_b.img.url}}"/>
+    </input>
+  </form>
 {% endblock %}

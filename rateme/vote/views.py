@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelForm
 
-from vote.models import Image
+from vote.models import Image, Vote
 
 
 def signup(request):
@@ -59,11 +59,21 @@ def updateScore(winner, loser, tie, k):
 
 
 def contenders(user):
-    
+    return Image.objects.order_by("?")[:2]
+
+
 
 
 @login_required
 def vote(request):
+    if request.method == "POST":
+        vote = Vote()
+        vote.img_a = Image.objects.get(pk=request.POST["img_a"])
+        vote.img_b = Image.objects.get(pk=request.POST["img_b"])
+        vote.user = request.user
+        vote.winner = Image.objects.get(pk=request.POST["winner"])
+        vote.save()
+
     img_a, img_b = contenders(request.user)
 
-    return render(request, 'vote/vote.html')
+    return render(request, 'vote/vote.html', {"img_a": img_a, "img_b": img_b})
