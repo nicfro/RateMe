@@ -17,7 +17,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/vote/')
+            return redirect('/')
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -44,6 +44,26 @@ def upload(request):
     return render(request, 'vote/upload.html', {'form': form, 'success': success})
 
 
+def updateScore(winner, loser, tie, k):
+    EA = (1 / (1 + 10 ** ((loser - winner) / 400)))
+    EB = (1 / (1 + 10 ** ((winner - loser) / 400)))
+
+    if tie == 0:
+        winner = winner + k * (1 - EA)
+        loser = loser + k * (0 - EB)
+    else:
+        winner = winner + k * (0.5 - EA)
+        loser = loser + k * (0.5 - EB)
+
+    return winner, loser
+
+
+def contenders(user):
+    
+
+
 @login_required
 def vote(request):
+    img_a, img_b = contenders(request.user)
+
     return render(request, 'vote/vote.html')
